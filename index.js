@@ -81,14 +81,14 @@ function resolveComponents (base, relative, options, skipNormalization) {
 
 function equal (uriA, uriB, options) {
   if (typeof uriA === 'string') {
-    uriA = unescape(uriA)
+    uriA = decodeURI(uriA)
     uriA = serialize(normalizeComponentEncoding(parse(uriA, options), true), { ...options, skipEscape: true })
   } else if (typeof uriA === 'object') {
     uriA = serialize(normalizeComponentEncoding(uriA, true), { ...options, skipEscape: true })
   }
 
   if (typeof uriB === 'string') {
-    uriB = unescape(uriB)
+    uriB = decodeURI(uriB)
     uriB = serialize(normalizeComponentEncoding(parse(uriB, options), true), { ...options, skipEscape: true })
   } else if (typeof uriB === 'object') {
     uriB = serialize(normalizeComponentEncoding(uriB, true), { ...options, skipEscape: true })
@@ -125,9 +125,9 @@ function serialize (cmpts, opts) {
 
   if (components.path !== undefined) {
     if (!options.skipEscape) {
-      components.path = escape(components.path)
+      components.path = encodeURI(components.path)
     } else {
-      components.path = unescape(components.path)
+      components.path = decodeURI(components.path)
     }
   }
 
@@ -265,22 +265,22 @@ function parse (uri, opts) {
 
     if (!schemeHandler || (schemeHandler && !schemeHandler.skipNormalize)) {
       if (gotEncoding && parsed.scheme !== undefined) {
-        parsed.scheme = unescape(parsed.scheme)
+        parsed.scheme = decodeURI(parsed.scheme)
       }
       if (gotEncoding && parsed.userinfo !== undefined) {
-        parsed.userinfo = unescape(parsed.userinfo)
+        parsed.userinfo = decodeURI(parsed.userinfo)
       }
       if (gotEncoding && parsed.host !== undefined) {
-        parsed.host = unescape(parsed.host)
+        parsed.host = decodeURI(parsed.host)
       }
       if (parsed.path !== undefined && parsed.path.length) {
-        parsed.path = escape(parsed.path)
+        parsed.path = encodeURI(parsed.path)
       }
       if (gotEncoding && parsed.query !== undefined && parsed.query.length) {
-        parsed.query = unescape(parsed.query)
+        parsed.query = decodeURI(parsed.query)
       }
       if (parsed.fragment !== undefined && parsed.fragment.length) {
-        parsed.fragment = escape(parsed.fragment)
+        parsed.fragment = encodeURI(parsed.fragment)
       }
     }
 
